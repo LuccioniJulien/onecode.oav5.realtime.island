@@ -28,7 +28,6 @@ class Home extends Component {
 			socket: null
 		};
 	}
-
 	render() {
 		if (this.state.nickname && this.state.response) {
 			return this.renderGame();
@@ -50,11 +49,6 @@ class Home extends Component {
 				>
 					Set
 				</Button>
-				{this.state.response ? (
-					<Badge color="green">{this.state.response}</Badge>
-				) : (
-					""
-				)}
 			</div>
 		);
 	}
@@ -62,6 +56,7 @@ class Home extends Component {
 	renderGame() {
 		return (
 			<div>
+			{<Badge color="green">{this.state.response}</Badge>}
 				<RadioGroup
 					label="Choose a game"
 					value={this.state.value}

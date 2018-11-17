@@ -6,7 +6,8 @@ class Magic extends Component {
 		ok: false,
 		response: null,
 		number: "",
-		win: null
+		win: null,
+		start: false
 	};
 
 	componentWillMount() {
@@ -16,6 +17,9 @@ class Magic extends Component {
 		this.props.socket.on("messageMagic", response => {
 			this.setState({ response });
 		});
+		this.props.socket.on("start", response => {
+			this.setState({ start: response });
+		});
 	}
 
 	render() {
@@ -23,10 +27,10 @@ class Magic extends Component {
 			return <p>no user</p>;
 		}
 		if (this.state.ok) {
-			if (this.state.response) {
+			if (this.state.start) {
 				return this.renderGame();
 			}
-			return <div>waiting other player</div>;
+			return <div>{this.state.response}</div>;
 		}
 		return (
 			<div>
