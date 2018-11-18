@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { TextInput, Button, Badge, RadioGroup } from "evergreen-ui";
 
-import Magic from "../Magic";
+import Game from "../Game";
+import Special from "../Special";
 
 import openSocket from "socket.io-client";
 const socket = openSocket("localhost:5000");
@@ -29,7 +30,7 @@ class Home extends Component {
 		};
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		// window.onbeforeunload = function(e) {
 		// 	alert("hello")
 		// 	var dialogText = 'Dialog text here';
@@ -38,7 +39,6 @@ class Home extends Component {
 		// };
 	}
 
-	
 	render() {
 		if (this.state.nickname && this.state.response) {
 			return this.renderGame();
@@ -76,7 +76,7 @@ class Home extends Component {
 						if (game == "") {
 							return;
 						}
-						console.log(game); 
+						console.log(game);
 						if (this.state.socket) {
 							this.state.socket.close();
 						}
@@ -84,9 +84,7 @@ class Home extends Component {
 							`http://localhost:5000${game}`
 						);
 						newSocket.emit("join", this.state.nickname);
-						newSocket.on("welcome", response => {
-
-						});
+						newSocket.on("welcome", response => {});
 						this.setState({ game, socket: newSocket });
 					}}
 				/>
@@ -96,13 +94,23 @@ class Home extends Component {
 	}
 
 	renderM() {
-		return (
-			<Magic
-				nickname={this.state.nickname}
-				socket={this.state.socket}
-				name={this.state.game}
-			/>
-		);
+		if (this.state.game == "/quickey") {
+			return (
+				<Special
+					nickname={this.state.nickname}
+					socket={this.state.socket}
+					name={this.state.game}
+				/>
+			);
+		} else {
+			return (
+				<Game
+					nickname={this.state.nickname}
+					socket={this.state.socket}
+					name={this.state.game}
+				/>
+			);
+		}
 	}
 }
 

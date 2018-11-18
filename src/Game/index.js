@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TextInput, Button, Badge, RadioGroup } from "evergreen-ui";
 
-class Magic extends Component {
+class Game extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -130,4 +130,4 @@ class Magic extends Component {
 	}
 }
 
-export default Magic;
+export default Game;
