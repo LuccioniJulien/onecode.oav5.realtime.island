@@ -7,8 +7,8 @@ import openSocket from "socket.io-client";
 const socket = openSocket("localhost:5000");
 
 class Home extends Component {
-	constructor(params) {
-		super();
+	constructor(props) {
+		super(props);
 		socket.on("welcome", response => {
 			try {
 				this.setState({ response });
@@ -28,6 +28,17 @@ class Home extends Component {
 			socket: null
 		};
 	}
+
+	componentDidMount(){
+		// window.onbeforeunload = function(e) {
+		// 	alert("hello")
+		// 	var dialogText = 'Dialog text here';
+		// 	e.returnValue = dialogText;
+		// 	return dialogText;
+		// };
+	}
+
+	
 	render() {
 		if (this.state.nickname && this.state.response) {
 			return this.renderGame();
@@ -56,7 +67,7 @@ class Home extends Component {
 	renderGame() {
 		return (
 			<div>
-			{<Badge color="green">{this.state.response}</Badge>}
+				{<Badge color="green">{this.state.response}</Badge>}
 				<RadioGroup
 					label="Choose a game"
 					value={this.state.value}
@@ -65,14 +76,16 @@ class Home extends Component {
 						if (game == "") {
 							return;
 						}
+						console.log(game); 
+						if (this.state.socket) {
+							this.state.socket.close();
+						}
 						const newSocket = openSocket.connect(
 							`http://localhost:5000${game}`
 						);
 						newSocket.emit("join", this.state.nickname);
 						newSocket.on("welcome", response => {
-							try {
-								console.log(response);
-							} catch (error) {}
+
 						});
 						this.setState({ game, socket: newSocket });
 					}}
